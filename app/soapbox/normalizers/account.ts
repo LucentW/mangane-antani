@@ -20,6 +20,7 @@ import type { PatronAccount } from 'soapbox/reducers/patron';
 import type { Emoji, Field, EmbeddedEntity, Relationship } from 'soapbox/types/entities';
 
 // https://docs.joinmastodon.org/entities/account/
+// 2023_09_11 import Akkoma fields too
 export const AccountRecord = ImmutableRecord({
   acct: '',
   avatar: '',
@@ -44,6 +45,7 @@ export const AccountRecord = ImmutableRecord({
   moved: null as EmbeddedEntity<any>,
   note: '',
   pleroma: ImmutableMap<string, any>(),
+  akkoma: ImmutableMap<string, any>(),
   source: ImmutableMap<string, any>(),
   statuses_count: 0,
   uri: '',

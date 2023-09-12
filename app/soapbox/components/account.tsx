@@ -27,10 +27,20 @@ const InstanceFavicon: React.FC<IInstanceFavicon> = ({ account }) => {
     e.stopPropagation();
     history.push(`/timeline/${account.domain}`);
   };
-
+  
+  var faviconAlt = `${account.domain}`;
+  
+  if (account.akkoma) {
+    if (account.akkoma.get("instance").get("nodeinfo")) {
+      const softwareName = account.akkoma.get("instance").get("nodeinfo").get("software").get("name")
+      const softwareVersion = account.akkoma.get("instance").get("nodeinfo").get("software").get("version")
+      faviconAlt = `${faviconAlt} (${softwareName} ${softwareVersion})`;
+    }
+  }
+  
   return (
     <button className='w-4 h-4 flex-none focus:ring-primary-500 focus:ring-2 focus:ring-offset-2' onClick={handleClick}>
-      <img src={account.favicon} alt='' title={account.domain} className='w-full max-h-full' />
+      <img src={account.favicon} alt='' title={faviconAlt} className='w-full max-h-full' />
     </button>
   );
 };

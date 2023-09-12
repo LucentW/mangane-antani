@@ -288,7 +288,7 @@ const Status: React.FC<IStatus> = (props) => {
                         id='status.reblogged_by'
                         defaultMessage='{name} reposted'
                         values={{
-                          name: <bdi className='max-w-[100px] truncate pr-1'>
+                          name: <bdi className='truncate pr-1'>
                             <strong className='text-gray-800 dark:text-gray-200' dangerouslySetInnerHTML={{ __html: String(status.getIn(['account', 'display_name_html'])) }} />
                           </bdi>,
                         }}

@@ -1,19 +1,19 @@
 {
-  "name": "mangane-fe",
-  "version": "hardcore-hedgehog",
-  "displayName": "Mangane",
-  "description": "Devanture pour https://bdx.town",
-  "homepage": "https://bdx.town",
+  "name": "posterdati-fe",
+  "version": "0.1",
+  "displayName": "Posterdati",
+  "description": "Fork of Mangane (bdx.town) for antani.pm",
+  "homepage": "https://antani.pm",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BDX-town/Mangane"
+    "url": "https://github.com/LucentW/mangane-antani"
   },
   "keywords": [
     "fediverse",
     "pleroma"
   ],
   "bugs": {
-    "url": "https://github.com/BDX-town/Mangane/issues"
+    "url": "https://github.com/LucentW/mangane-antani/issues"
   },
   "scripts": {
     "start": "npx webpack-dev-server",
