@@ -1073,6 +1073,7 @@
   "status.edit": "Edit",
   "status.embed": "Embed",
   "status.favourite": "Like",
+  "status.react": "React",
   "status.filtered": "Filtered",
   "status.filtered-hint": "Status was hidden by filter settings",
   "status.load_more": "Load more",

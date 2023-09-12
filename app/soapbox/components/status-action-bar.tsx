@@ -41,6 +41,7 @@ const messages = defineMessages({
   cancel_reblog_private: { id: 'status.cancel_reblog_private', defaultMessage: 'Un-repost' },
   cannot_reblog: { id: 'status.cannot_reblog', defaultMessage: 'This post cannot be reposted' },
   favourite: { id: 'status.favourite', defaultMessage: 'Like' },
+  react: { id: 'status.react', defaultMessage: 'React' },
   open: { id: 'status.open', defaultMessage: 'Expand this post' },
   bookmark: { id: 'status.bookmark', defaultMessage: 'Bookmark' },
   unbookmark: { id: 'status.unbookmark', defaultMessage: 'Remove bookmark' },
@@ -542,10 +543,10 @@ const StatusActionBar: React.FC<IStatusActionBar> = ({
     '😮': messages.reactionOpenMouth,
     '😢': messages.reactionCry,
     '😩': messages.reactionWeary,
-    '': messages.favourite,
+    '': messages.react,
   };
 
-  const meEmojiTitle = intl.formatMessage(reactMessages[meEmojiReact || ''] || messages.favourite);
+  const meEmojiTitle = intl.formatMessage(reactMessages[meEmojiReact || ''] || messages.react);
 
   const menu = _makeMenu(publicStatus);
   let reblogIcon = require('@tabler/icons/repeat.svg');
@@ -615,7 +616,17 @@ const StatusActionBar: React.FC<IStatusActionBar> = ({
         reblogButton
       )}
 
-      {features.emojiReacts ? (
+        <StatusActionButton
+          title={intl.formatMessage(messages.favourite)}
+          icon={require('@tabler/icons/star.svg')}
+          color='accent'
+          filled
+          onClick={handleFavouriteClick}
+          active={meEmojiReact === "👍"}
+          count={favouriteCount}
+          text={withLabels ? intl.formatMessage(messages.favourite) : undefined}
+        />
+
         <EmojiButtonWrapper statusId={status.id}>
           <StatusActionButton
             title={meEmojiTitle}
@@ -628,19 +639,7 @@ const StatusActionBar: React.FC<IStatusActionBar> = ({
             text={withLabels ? meEmojiTitle : undefined}
           />
         </EmojiButtonWrapper>
-      ) : (
-        <StatusActionButton
-          title={intl.formatMessage(messages.favourite)}
-          icon={require('@tabler/icons/heart.svg')}
-          color='accent'
-          filled
-          onClick={handleFavouriteClick}
-          active={Boolean(meEmojiReact)}
-          count={favouriteCount}
-          text={withLabels ? meEmojiTitle : undefined}
-        />
-      )}
-
+ 
       {canShare && (
         <StatusActionButton
           title={intl.formatMessage(messages.share)}

@@ -2,6 +2,9 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Emoji, HStack } from 'soapbox/components/ui';
+import EmojiPickerDropdown from 'soapbox/containers/emoji_picker_dropdown_container';
+
+import { IconButton } from 'soapbox/components/ui';
 
 interface IEmojiButton {
   /** Unicode emoji character. */
@@ -45,6 +48,10 @@ const EmojiSelector: React.FC<IEmojiSelector> = ({ emojis, onReact, visible = fa
     };
   };
 
+  const handleEmojiPick = (data) => {
+    onReact(data.native);
+  }
+
   return (
     <HStack
       space={2}
@@ -58,6 +65,15 @@ const EmojiSelector: React.FC<IEmojiSelector> = ({ emojis, onReact, visible = fa
           tabIndex={(visible || focused) ? 0 : -1}
         />
       ))}
+
+      <EmojiPickerDropdown
+        button={
+          <IconButton
+            className='text-gray-600 hover:text-gray-600 dark:hover:text-white'
+            src={require('@tabler/icons/dots.svg')}
+          />
+        } onPickEmoji={handleEmojiPick}
+      />
     </HStack>
   );
 };
