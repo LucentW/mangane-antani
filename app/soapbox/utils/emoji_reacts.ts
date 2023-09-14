@@ -87,7 +87,7 @@ export const getReactForStatus = (status: any, allowedEmoji = ALLOWED_EMOJI): st
     status.pleroma.get('emoji_reactions', ImmutableList()),
     status.favourites_count || 0,
     status.favourited,
-    allowedEmoji,
+    null,
   ).filter(e => e.get('me') === true)
     .getIn([0, 'name']);
 

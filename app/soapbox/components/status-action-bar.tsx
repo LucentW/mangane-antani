@@ -622,7 +622,7 @@ const StatusActionBar: React.FC<IStatusActionBar> = ({
           color='accent'
           filled
           onClick={handleFavouriteClick}
-          active={meEmojiReact === "👍"}
+          active={status.favourited}
           count={favouriteCount}
           text={withLabels ? intl.formatMessage(messages.favourite) : undefined}
         />
@@ -636,6 +636,7 @@ const StatusActionBar: React.FC<IStatusActionBar> = ({
             active={Boolean(meEmojiReact)}
             count={emojiReactCount}
             emoji={meEmojiReact}
+            emojiurl={(status.pleroma.get('emoji_reactions').filter(e => e.get('me') === true).getIn([0, 'url']) || undefined)}
             text={withLabels ? meEmojiTitle : undefined}
           />
         </EmojiButtonWrapper>

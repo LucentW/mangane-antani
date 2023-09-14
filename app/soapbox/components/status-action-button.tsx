@@ -33,16 +33,17 @@ interface IStatusActionButton extends React.ButtonHTMLAttributes<HTMLButtonEleme
   filled?: boolean,
   emoji?: string,
   text?: React.ReactNode,
+  emojiurl?: string,
 }
 
 const StatusActionButton = React.forwardRef<HTMLButtonElement, IStatusActionButton>((props, ref): JSX.Element => {
-  const { icon, className, iconClassName, active, color, filled = false, count = 0, emoji, text, ...filteredProps } = props;
+  const { icon, className, iconClassName, active, color, filled = false, count = 0, emoji, text, emojiurl, ...filteredProps } = props;
 
   const renderIcon = () => {
     if (emoji) {
       return (
         <span className='block w-6 h-6 flex items-center justify-center'>
-          <Emoji className='w-full h-full p-0.5' emoji={emoji} />
+          <Emoji className='w-full h-full p-0.5' emoji={emoji} emojiurl={emojiurl} />
         </span>
       );
     } else {
