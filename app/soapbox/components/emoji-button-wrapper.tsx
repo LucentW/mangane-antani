@@ -10,13 +10,17 @@ import { useAppSelector, useOwnAccount, useSoapboxConfig } from 'soapbox/hooks';
 import { isUserTouching } from 'soapbox/is_mobile';
 import { getReactForStatus } from 'soapbox/utils/emoji_reacts';
 
+import EmojiPickerDropdown from 'soapbox/containers/emoji_picker_dropdown_container';
+import { IconButton } from 'soapbox/components/ui';
+
 interface IEmojiButtonWrapper {
   statusId: string,
-  children: JSX.Element,
+  button?: any,
+  children?: JSX.Element,
 }
 
 /** Provides emoji reaction functionality to the underlying button component */
-const EmojiButtonWrapper: React.FC<IEmojiButtonWrapper> = ({ statusId, children }): JSX.Element | null => {
+const EmojiButtonWrapper: React.FC<IEmojiButtonWrapper> = ({ statusId, button, children }): JSX.Element | null => {
   const dispatch = useDispatch();
   const ownAccount = useOwnAccount();
   const status = useAppSelector(state => state.statuses.get(statusId));
@@ -91,6 +95,10 @@ const EmojiButtonWrapper: React.FC<IEmojiButtonWrapper> = ({ statusId, children 
 
     setVisible(false);
   };
+  
+  const handleReactDD = (data): void => {
+    handleReact(data.native);
+  };
 
   const handleClick: React.EventHandler<React.MouseEvent> = e => {
     const meEmojiReact = getReactForStatus(status, soapboxConfig.allowedEmoji) || '👍';
@@ -113,30 +121,18 @@ const EmojiButtonWrapper: React.FC<IEmojiButtonWrapper> = ({ statusId, children 
   //   setFocused(false);
   // };
 
-  const selector = (
-    <div
-      className={classNames('z-50 transition-opacity duration-100', {
-        'opacity-0 pointer-events-none': !visible,
-      })}
-      ref={setPopperElement}
-      style={styles.popper}
-      {...attributes.popper}
-    >
-      <EmojiSelector
-        emojis={soapboxConfig.allowedEmoji}
-        onReact={handleReact}
-        // focused={focused}
-        // onUnfocus={handleUnfocus}
-      />
-    </div>
+  const selector = (      
+    <EmojiPickerDropdown
+      button={button} onPickEmoji={handleReactDD} onBody={true}
+    />
   );
 
   return (
     <div className='relative' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      {React.cloneElement(children, {
+      {(children ? React.cloneElement(children, {
         onClick: handleClick,
         ref: setReferenceElement,
-      })}
+      }) : '')}
 
       {selector}
     </div>

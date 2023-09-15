@@ -30,7 +30,7 @@ export const mergeEmoji = (emojiReacts: ImmutableList<EmojiReact>): ImmutableLis
 
 export const mergeEmojiFavourites = (emojiReacts = ImmutableList<EmojiReact>(), favouritesCount: number, favourited: boolean) => {
   if (!favouritesCount) return emojiReacts;
-  const likeIndex = emojiReacts.findIndex(emojiReact => emojiReact.get('name') === '👍');
+  const likeIndex = emojiReacts.findIndex(emojiReact => emojiReact.get('name') === '⭐️');
   if (likeIndex > -1) {
     const likeCount = Number(emojiReacts.getIn([likeIndex, 'count']));
     favourited = favourited || Boolean(emojiReacts.getIn([likeIndex, 'me'], false));
@@ -38,7 +38,7 @@ export const mergeEmojiFavourites = (emojiReacts = ImmutableList<EmojiReact>(), 
       .setIn([likeIndex, 'count'], likeCount + favouritesCount)
       .setIn([likeIndex, 'me'], favourited);
   } else {
-    return emojiReacts.push(ImmutableMap({ count: favouritesCount, me: favourited, name: '👍' }));
+    return emojiReacts.push(ImmutableMap({ count: favouritesCount, me: favourited, name: '⭐️' }));
   }
 };
 
@@ -86,7 +86,7 @@ export const getReactForStatus = (status: any, allowedEmoji = ALLOWED_EMOJI): st
   const result = reduceEmoji(
     status.pleroma.get('emoji_reactions', ImmutableList()),
     status.favourites_count || 0,
-    status.favourited,
+    false,
     null,
   ).filter(e => e.get('me') === true)
     .getIn([0, 'name']);

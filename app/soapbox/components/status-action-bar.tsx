@@ -536,7 +536,7 @@ const StatusActionBar: React.FC<IStatusActionBar> = ({
 
   const meEmojiReact = getReactForStatus(status, allowedEmoji) as keyof typeof reactMessages | undefined;
 
-  const reactMessages = {
+  /* const reactMessages = {
     '👍': messages.reactionLike,
     '❤️': messages.reactionHeart,
     '😆': messages.reactionLaughing,
@@ -544,9 +544,10 @@ const StatusActionBar: React.FC<IStatusActionBar> = ({
     '😢': messages.reactionCry,
     '😩': messages.reactionWeary,
     '': messages.react,
-  };
+  }; */
 
-  const meEmojiTitle = intl.formatMessage(reactMessages[meEmojiReact || ''] || messages.react);
+  // const meEmojiTitle = intl.formatMessage(reactMessages[meEmojiReact || ''] || messages.react);
+  const meEmojiTitle = intl.formatMessage(messages.react);
 
   const menu = _makeMenu(publicStatus);
   let reblogIcon = require('@tabler/icons/repeat.svg');
@@ -627,7 +628,7 @@ const StatusActionBar: React.FC<IStatusActionBar> = ({
           text={withLabels ? intl.formatMessage(messages.favourite) : undefined}
         />
 
-        <EmojiButtonWrapper statusId={status.id}>
+        <EmojiButtonWrapper statusId={status.id} button={
           <StatusActionButton
             title={meEmojiTitle}
             icon={require('@tabler/icons/heart.svg')}
@@ -638,7 +639,7 @@ const StatusActionBar: React.FC<IStatusActionBar> = ({
             emoji={meEmojiReact}
             emojiurl={(status.pleroma.get('emoji_reactions').filter(e => e.get('me') === true).getIn([0, 'url']) || undefined)}
             text={withLabels ? meEmojiTitle : undefined}
-          />
+          />}>
         </EmojiButtonWrapper>
  
       {canShare && (

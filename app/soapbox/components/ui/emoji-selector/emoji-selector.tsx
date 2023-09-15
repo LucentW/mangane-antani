@@ -72,7 +72,7 @@ const EmojiSelector: React.FC<IEmojiSelector> = ({ emojis, onReact, visible = fa
             className='text-gray-600 hover:text-gray-600 dark:hover:text-white'
             src={require('@tabler/icons/dots.svg')}
           />
-        } onPickEmoji={handleEmojiPick}
+        } onPickEmoji={handleEmojiPick} onBody={true}
       />
     </HStack>
   );

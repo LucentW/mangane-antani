@@ -34,10 +34,11 @@ interface IWrapper {
     children: React.ReactNode,
 }
 
-const Wrapper: React.FC<IWrapper> = ({ target, show, onClose, children }) => {
+const Wrapper: React.FC<IWrapper> = ({ target, show, onClose, onBody, children }) => {
   if (!show) return null;
+  const classList = (onBody ? 'emoji-picker z-[100]' : 'emoji-picker fixed top-0 left-0 w-screen h-screen bg-gray-800 z-[100]');
   return (
-    <div className='emoji-picker fixed top-0 left-0 w-screen h-screen bg-gray-800 z-[100]'>
+    <div className={classList}>
       <div className='bg-white dark:bg-slate-800  flex flex-col overflow-hidden sm:rounded-lg absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] '>
         <div className='p-1'>
           <IconButton
@@ -55,15 +56,17 @@ const Wrapper: React.FC<IWrapper> = ({ target, show, onClose, children }) => {
 interface IEmojiPicker {
     custom_emojis?: ImmutableList<string>,
     button?: React.ReactNode,
+    onBody?: boolean,
     onPickEmoji: Function,
 }
 
 const EmojiPickerUI : React.FC<IEmojiPicker> = ({
   custom_emojis = ImmutableList(),
   button,
+  onBody,
   onPickEmoji,
 }) => {
-  const root = React.useRef<HTMLDivElement>(null);
+  const root = onBody ? undefined : React.useRef<HTMLDivElement>(null);
   const [active, setActive] = React.useState(false);
   const intl = useIntl();
   const theme = useTheme();
@@ -122,7 +125,7 @@ const EmojiPickerUI : React.FC<IEmojiPicker> = ({
             />
           }
         </div>
-        <Wrapper target={root} show={active} onClose={handleClose}>
+        <Wrapper target={root} show={active} onClose={handleClose} onBody={onBody}>
           <Picker
             theme={theme}
             dynamicWidth={isMobile(window.innerWidth)}
