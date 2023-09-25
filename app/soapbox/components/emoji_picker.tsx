@@ -9,6 +9,8 @@ import { IconButton } from 'soapbox/components/ui';
 import { useTheme } from 'soapbox/hooks';
 import { isMobile } from 'soapbox/is_mobile';
 
+import Portal from 'soapbox/components/ui/portal/portal';
+
 const messages = defineMessages({
   emoji: { id: 'emoji_button.label', defaultMessage: 'Insert emoji' },
   emoji_search: { id: 'emoji_button.search', defaultMessage: 'Search…' },
@@ -34,11 +36,10 @@ interface IWrapper {
     children: React.ReactNode,
 }
 
-const Wrapper: React.FC<IWrapper> = ({ target, show, onClose, onBody, children }) => {
+const Wrapper: React.FC<IWrapper> = ({ target, show, onClose, children }) => {
   if (!show) return null;
-  const classList = (onBody ? 'emoji-picker z-[100]' : 'emoji-picker fixed top-0 left-0 w-screen h-screen bg-gray-800 z-[100]');
   return (
-    <div className={classList}>
+    <div className='emoji-picker fixed top-0 left-0 w-screen h-screen bg-gray-800 z-[100]'>
       <div className='bg-white dark:bg-slate-800  flex flex-col overflow-hidden sm:rounded-lg absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] '>
         <div className='p-1'>
           <IconButton
@@ -66,7 +67,7 @@ const EmojiPickerUI : React.FC<IEmojiPicker> = ({
   onBody,
   onPickEmoji,
 }) => {
-  const root = onBody ? undefined : React.useRef<HTMLDivElement>(null);
+  const root = React.useRef<HTMLDivElement>(null);
   const [active, setActive] = React.useState(false);
   const intl = useIntl();
   const theme = useTheme();
@@ -125,37 +126,39 @@ const EmojiPickerUI : React.FC<IEmojiPicker> = ({
             />
           }
         </div>
-        <Wrapper target={root} show={active} onClose={handleClose} onBody={onBody}>
-          <Picker
-            theme={theme}
-            dynamicWidth={isMobile(window.innerWidth)}
-            categories={['frequent', 'custom', 'people', 'nature', 'foods', 'activity', 'places', 'objects', 'symbols', 'flags']}
-            previewPosition='none'
-            custom={buildCustomEmojis(custom_emojis)}
-            data={data}
-            onEmojiSelect={handlePick}
-            i18n={
-              {
-                search: intl.formatMessage(messages.emoji_search),
-                notfound: intl.formatMessage(messages.emoji_not_found),
-                skins: intl.formatMessage(messages.skins),
-                categories: {
-                  search: intl.formatMessage(messages.search_results),
-                  recent: intl.formatMessage(messages.recent),
-                  people: intl.formatMessage(messages.people),
-                  nature: intl.formatMessage(messages.nature),
-                  foods: intl.formatMessage(messages.food),
-                  activity: intl.formatMessage(messages.activity),
-                  places: intl.formatMessage(messages.travel),
-                  objects: intl.formatMessage(messages.objects),
-                  symbols: intl.formatMessage(messages.symbols),
-                  flags: intl.formatMessage(messages.flags),
-                  custom: intl.formatMessage(messages.custom),
-                },
+        <Portal>
+          <Wrapper target={root} show={active} onClose={handleClose}>
+            <Picker
+              theme={theme}
+              dynamicWidth={isMobile(window.innerWidth)}
+              categories={['frequent', 'custom', 'people', 'nature', 'foods', 'activity', 'places', 'objects', 'symbols', 'flags']}
+              previewPosition='none'
+              custom={buildCustomEmojis(custom_emojis)}
+              data={data}
+              onEmojiSelect={handlePick}
+              i18n={
+                {
+                  search: intl.formatMessage(messages.emoji_search),
+                  notfound: intl.formatMessage(messages.emoji_not_found),
+                  skins: intl.formatMessage(messages.skins),
+                  categories: {
+                    search: intl.formatMessage(messages.search_results),
+                    recent: intl.formatMessage(messages.recent),
+                    people: intl.formatMessage(messages.people),
+                    nature: intl.formatMessage(messages.nature),
+                    foods: intl.formatMessage(messages.food),
+                    activity: intl.formatMessage(messages.activity),
+                    places: intl.formatMessage(messages.travel),
+                    objects: intl.formatMessage(messages.objects),
+                    symbols: intl.formatMessage(messages.symbols),
+                    flags: intl.formatMessage(messages.flags),
+                    custom: intl.formatMessage(messages.custom),
+                  },
+                }
               }
-            }
-          />
-        </Wrapper>
+            />
+          </Wrapper>
+        </Portal>
       </div>
     </>
   );

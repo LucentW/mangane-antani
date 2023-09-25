@@ -121,7 +121,7 @@ const EmojiButtonWrapper: React.FC<IEmojiButtonWrapper> = ({ statusId, button, c
   //   setFocused(false);
   // };
 
-  const selector = (      
+  const selector = (
     <EmojiPickerDropdown
       button={button} onPickEmoji={handleReactDD} onBody={true}
     />
